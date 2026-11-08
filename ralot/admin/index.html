@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Citas — RALOT Admin</title>
+  <style>
+    :root{--navy:#0E2A47;--green:#13865B;--bg:#F6F8FB;--card:#fff;--text:#13212F;--muted:#526273;--line:#DCE3EB;--warn:#B4541A}
+    @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1724;--card:#11233A;--text:#EAF0F6;--muted:#A3B3C4;--line:#22384F}}
+    :root[data-theme="dark"]{--bg:#0B1724;--card:#11233A;--text:#EAF0F6;--muted:#A3B3C4;--line:#22384F}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}
+    header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+    header strong{letter-spacing:.06em}
+    main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+    input,select,button{font:inherit;border-radius:10px;border:1.5px solid var(--line);padding:10px 12px;background:var(--bg);color:var(--text)}
+    button{cursor:pointer;font-weight:600}
+    .primary{background:var(--green);border-color:var(--green);color:#fff}
+    .ghost{background:transparent;color:inherit;border-color:currentColor}
+    .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+    .bar .count{margin-left:auto;color:var(--muted)}
+    .list{display:grid;gap:10px}
+    .cita{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:6px 16px}
+    .cita h3{margin:0;font-size:16px}
+    .cita .meta{color:var(--muted);font-size:13.5px}
+    .cita .notes{grid-column:1/-1;font-size:14px;white-space:pre-wrap;word-break:break-word}
+    .cita .actions{display:flex;gap:6px;align-items:start}
+    .cita .actions select,.cita .actions button{padding:6px 10px;font-size:13px}
+    .badge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--line)}
+    .b-pendiente{background:#FDE7C8;color:#7A3E00}.b-confirmada{background:#D6EEFF;color:#0B4A7A}
+    .b-completada{background:#D7F2E5;color:#0B5C3C}.b-cancelada{background:#EEE;color:#555}
+    .err{color:var(--warn);min-height:1.3em}
+    a{color:var(--green)}
+    @media (max-width:600px){.cita{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<header>
+  <strong>RALOT · Citas</strong>
+  <button class="ghost" id="logout" hidden>Salir</button>
+</header>
+<main>
+  <form class="card" id="login" style="max-width:420px;margin:40px auto">
+    <h2 style="margin-top:0">Acceso administrador</h2>
+    <label for="tok">Contraseña (ADMIN_TOKEN)</label>
+    <input id="tok" type="password" autocomplete="current-password" required style="width:100%;margin:6px 0 12px">
+    <p class="err" id="loginErr"></p>
+    <button class="primary" style="width:100%">Entrar</button>
+  </form>
+
+  <section id="panel" hidden>
+    <div class="bar">
+      <select id="filtro" aria-label="Filtrar por estado">
+        <option value="">Todas</option><option value="pendiente" selected>Pendientes</option>
+        <option value="confirmada">Confirmadas</option><option value="completada">Completadas</option><option value="cancelada">Canceladas</option>
+      </select>
+      <button id="reload">Actualizar</button>
+      <button id="csv">Exportar CSV</button>
+      <span class="count" id="count"></span>
+    </div>
+    <p class="err" id="panelErr"></p>
+    <div class="list" id="list"></div>
+  </section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const ESTADOS = ["pendiente","confirmada","completada","cancelada"];
+let token = ""; try { token = sessionStorage.getItem("ralot-admin") || ""; } catch(e){}
+let citas = [];
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+async function api(path, opts = {}){
+  const r = await fetch(path, { ...opts, headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json", ...(opts.headers||{}) } });
+  if (r.status === 401){ logout(); throw new Error("La contraseña no es válida."); }
+  if (!r.ok) throw new Error("Error " + r.status);
+  return r.json();
+}
+function show(logged){ $("#login").hidden = logged; $("#panel").hidden = !logged; $("#logout").hidden = !logged; }
+function logout(){ token = ""; try { sessionStorage.removeItem("ralot-admin"); } catch(e){} show(false); }
+
+async function load(){
+  $("#panelErr").textContent = "";
+  try {
+    const q = $("#filtro").value ? "?estado=" + $("#filtro").value : "";
+    citas = (await api("/api/admin/citas" + q)).citas;
+    render();
+  } catch(e){ $("#panelErr").textContent = e.message; }
+}
+function render(){
+  $("#count").textContent = citas.length + (citas.length === 1 ? " cita" : " citas");
+  $("#list").innerHTML = citas.length ? citas.map(c => `
+    <article class="cita">
+      <div>
+        <h3>${esc(c.nombre)} <span class="badge b-${esc(c.estado)}">${esc(c.estado)}</span></h3>
+        <div class="meta">📞 <a href="tel:${esc(String(c.telefono).replace(/[^\d+]/g,""))}">${esc(c.telefono)}</a>${c.email ? ` · ✉️ <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ""}</div>
+        <div class="meta">${esc(c.servicio)} · ${esc(c.fecha)} ${esc(c.horario)} · ${esc(c.modalidad)} · ${esc(c.idioma)}</div>
+        <div class="meta">Recibida: ${esc(new Date(c.creado).toLocaleString("es-US"))} · #${c.id}</div>
+      </div>
+      <div class="actions">
+        <select data-id="${c.id}" aria-label="Estado">${ESTADOS.map(e => `<option ${e===c.estado?"selected":""}>${e}</option>`).join("")}</select>
+        <button data-del="${c.id}" title="Borrar">🗑</button>
+      </div>
+      ${c.comentarios ? `<div class="notes">${esc(c.comentarios)}</div>` : ""}
+    </article>`).join("") : `<p style="color:var(--muted)">No hay citas en este filtro.</p>`;
+}
+$("#list").addEventListener("change", async e => {
+  const id = e.target.dataset.id; if (!id) return;
+  try { await api("/api/admin/citas/" + id, { method:"PATCH", body: JSON.stringify({ estado: e.target.value }) }); load(); }
+  catch(err){ $("#panelErr").textContent = err.message; }
+});
+$("#list").addEventListener("click", async e => {
+  const id = e.target.dataset.del; if (!id) return;
+  if (!confirm("¿Borrar esta cita de forma permanente?")) return;
+  try { await api("/api/admin/citas/" + id, { method:"DELETE" }); load(); }
+  catch(err){ $("#panelErr").textContent = err.message; }
+});
+$("#login").addEventListener("submit", async e => {
+  e.preventDefault(); token = $("#tok").value.trim(); $("#loginErr").textContent = "";
+  try { await api("/api/admin/citas?estado=pendiente"); try { sessionStorage.setItem("ralot-admin", token); } catch(_){}; show(true); load(); $("#tok").value = ""; }
+  catch(err){ $("#loginErr").textContent = err.message; }
+});
+$("#logout").addEventListener("click", logout);
+$("#filtro").addEventListener("change", load);
+$("#reload").addEventListener("click", load);
+$("#csv").addEventListener("click", () => {
+  const cols = ["id","creado","estado","nombre","telefono","email","servicio","fecha","horario","modalidad","idioma","comentarios"];
+  const q = v => { let s = String(v ?? ""); if (/^[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g,'""') + '"'; };
+  const csv = [cols.join(","), ...citas.map(c => cols.map(k => q(c[k])).join(","))].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type:"text/csv" }));
+  a.download = "citas-ralot-" + new Date().toISOString().slice(0,10) + ".csv"; a.click();
+});
+if (token){ show(true); load(); } else show(false);
+</script>
+</body>
+</html>

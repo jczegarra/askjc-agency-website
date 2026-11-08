@@ -1,0 +1,22 @@
+{
+  // Cloudflare Worker de RALOT Financial (sitio + API de citas).
+  // Deploy: Cloudflare → Workers & Pages → Create → Import a repository,
+  // con "Root directory" = ralot
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ralot-financial",
+  "main": "src/worker.js",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ralot-db",
+      "database_id": "242ee0e6-f841-402c-a758-e7c06edcfcc8",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}
