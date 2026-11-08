@@ -1,0 +1,11 @@
+# Archivos que NO se publican como estáticos
+.assetsignore
+wrangler.jsonc
+src
+migrations
+node_modules
+package.json
+package-lock.json
+README.md
+.wrangler
+.dev.vars

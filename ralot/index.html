@@ -428,9 +428,9 @@ const CONFIG = {
   email: "",            // ej. "citas@ralotfinancial.com"
   address: "",          // ej. "123 Main St, Columbus, OH 43215"
   hours: { es: "Lun–Vie 9am–8pm · Sáb 10am–4pm", en: "Mon–Fri 9am–8pm · Sat 10am–4pm" },
-  // Endpoint opcional para recibir citas (Formspree, Getform, Google Apps Script, API propia).
-  // Si está vacío, la cita se envía por WhatsApp o email usando los datos de arriba.
-  formEndpoint: ""
+  // API propia en Cloudflare (Worker + base de datos D1). Las citas se guardan en "ralot-db".
+  // Si la API no está disponible (p. ej. en GitHub Pages), se usa WhatsApp o email como respaldo.
+  formEndpoint: "/api/citas"
 };
 
 /* =====================================================================
@@ -739,18 +739,35 @@ ${L("Modalidad","Format")}: ${data.modalidad} · ${data.idioma}
 ${L("Comentarios","Notes")}: ${data.comentarios || "-"}`;
   const btn = $("#bSubmit"); btn.disabled = true;
   try {
+    let saved = false;
     if (CONFIG.formEndpoint){
-      const r = await fetch(CONFIG.formEndpoint, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(data) });
-      if (!r.ok) throw new Error(r.status);
-      toast(L("¡Listo! Te contactaremos para confirmar tu cita.","Done! We'll contact you to confirm your appointment."));
-      f.reset();
+      let r = null;
+      try {
+        r = await fetch(CONFIG.formEndpoint, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(data) });
+      } catch(netErr){ r = null; }
+      if (r && r.ok){
+        saved = true;
+        toast(L("¡Listo! Recibimos tu solicitud. Te contactaremos para confirmar tu cita.","Done! We received your request and will contact you to confirm."));
+        f.reset();
+      } else if (r && r.status === 422){
+        err.textContent = L("Parece que escribiste un número de Seguro Social. Por tu seguridad, bórralo.","It looks like you typed a Social Security number. For your safety, please remove it.");
+        return;
+      } else if (r && r.status === 400){
+        err.textContent = L("Revisa los datos: nombre, teléfono de 10 dígitos, email válido y fecha.","Please check: name, 10-digit phone, valid email and date.");
+        return;
+      } else if (r && r.status !== 404 && r.status !== 405){
+        throw new Error(r.status);
+      }
+      // 404/405 o sin red: la API no existe en este hosting → usar respaldo.
+    }
+    if (saved){
+      // ok
     } else if (CONFIG.whatsapp){
       window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(summary)}`, "_blank", "noopener");
     } else if (CONFIG.email){
       location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(L("Solicitud de cita","Appointment request"))}&body=${encodeURIComponent(summary)}`;
     } else {
-      console.info(summary);
-      toast(L("Modo demo: configura WhatsApp, email o formEndpoint para recibir citas.","Demo mode: set WhatsApp, email or formEndpoint to receive bookings."));
+      toast(L("Modo demo: configura WhatsApp, email o la API para recibir citas.","Demo mode: set WhatsApp, email or the API to receive bookings."));
     }
   } catch(ex){
     err.textContent = L("No pudimos enviar tu solicitud. Intenta de nuevo o llámanos.","We couldn't send your request. Please try again or call us.");
