@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#0E2A47" />
+  <title>RALOT Financial — Taxes en Ohio</title>
+  <meta name="description" content="RALOT Financial: preparación de taxes personales y de negocios en Ohio. Calcula tu reembolso estimado, revisa qué documentos necesitas y agenda tu cita en español o inglés." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --navy:#0E2A47; --navy-2:#173B61; --green:#13865B; --green-soft:#E3F3EC;
+      --bg:#F6F8FB; --card:#FFFFFF; --text:#13212F; --muted:#526273; --line:#DCE3EB;
+      --warn:#B4541A; --warn-soft:#FBEDE3; --radius:16px; --shadow:0 10px 30px rgba(14,42,71,.08);
+    }
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme="light"]){
+        --bg:#0B1724; --card:#11233A; --text:#EAF0F6; --muted:#A3B3C4; --line:#22384F;
+        --green-soft:#0F3528; --warn-soft:#3A2416; --shadow:0 10px 30px rgba(0,0,0,.35);
+      }
+    }
+    :root[data-theme="dark"]{
+      --bg:#0B1724; --card:#11233A; --text:#EAF0F6; --muted:#A3B3C4; --line:#22384F;
+      --green-soft:#0F3528; --warn-soft:#3A2416; --shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.6;font-size:16px;overflow-x:hidden}
+    html[lang="es"] .en, html[lang="en"] .es{display:none!important}
+    a{color:var(--green)}
+    h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;margin:0 0 .5em}
+    h2{font-size:clamp(26px,4vw,38px)}
+    h3{font-size:20px}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+    .muted{color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font:600 15px Inter,sans-serif;cursor:pointer;text-decoration:none;transition:transform .15s,opacity .15s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--green);color:#fff}
+    .btn-ghost{background:transparent;color:inherit;border:1.5px solid currentColor}
+    .btn-light{background:#fff;color:var(--navy)}
+    .btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:3px solid #6CC9A1;outline-offset:2px}
+
+    /* Header */
+    header.top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff}
+    .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
+    .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;letter-spacing:.06em}
+    .brand-mark{width:34px;height:34px;border-radius:9px;background:var(--green);display:grid;place-items:center;font-family:Fraunces,serif;font-size:19px}
+    .brand small{display:block;font-weight:500;letter-spacing:.02em;font-size:11px;opacity:.75}
+    nav.links{display:flex;gap:22px}
+    nav.links a{color:#fff;opacity:.85;text-decoration:none;font-size:14px;font-weight:500}
+    nav.links a:hover{opacity:1}
+    .top-actions{display:flex;gap:8px;align-items:center}
+    .lang{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:999px;padding:8px 12px;font:600 13px Inter;cursor:pointer}
+    .top .btn{padding:9px 16px;font-size:14px}
+    @media (max-width:860px){nav.links{display:none}}
+    @media (max-width:420px){.top .btn-primary{display:none}}
+
+    /* Hero */
+    .hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:64px 0 80px}
+    .hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+    .hero h1{font-size:clamp(34px,5.5vw,58px)}
+    .hero p.lead{font-size:18px;opacity:.88;max-width:560px}
+    .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+    .pill{display:inline-block;background:rgba(255,255,255,.12);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;margin-bottom:18px}
+    .countdown{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--radius);padding:24px}
+    .countdown .big{font-family:Fraunces,serif;font-size:56px;line-height:1}
+    .countdown ul{list-style:none;padding:0;margin:18px 0 0;font-size:14px}
+    .countdown li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14)}
+    @media (max-width:860px){.hero .wrap{grid-template-columns:1fr}}
+
+    section{padding:72px 0}
+    .section-head{max-width:680px;margin-bottom:32px}
+    .grid{display:grid;gap:18px}
+    .g3{grid-template-columns:repeat(3,1fr)}
+    .g2{grid-template-columns:repeat(2,1fr)}
+    @media (max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .icon{width:44px;height:44px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;margin-bottom:14px}
+    .icon svg{width:22px;height:22px}
+    .card p{margin:0;color:var(--muted)}
+
+    /* Steps */
+    .steps{counter-reset:s}
+    .step{position:relative;padding-left:56px}
+    .step::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}
+    :root[data-theme="dark"] .step::before{background:var(--green)}
+    @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .step::before{background:var(--green)}}
+
+    /* Forms */
+    label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+    .field{margin-bottom:16px}
+    input,select,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:16px Inter,sans-serif}
+    textarea{min-height:90px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:560px){.row{grid-template-columns:1fr}}
+    .hint{font-size:13px;color:var(--muted);margin-top:4px}
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+    .tab{border:1.5px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:8px 14px;font:600 14px Inter;cursor:pointer}
+    .tab[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+    /* Estimator results */
+    .result{border-radius:var(--radius);padding:22px;background:var(--green-soft)}
+    .result.owe{background:var(--warn-soft)}
+    .result .amount{font-family:Fraunces,serif;font-size:44px;line-height:1.1;margin:4px 0 8px}
+    .result.owe .amount{color:var(--warn)}
+    .result:not(.owe) .amount{color:var(--green)}
+    table.breakdown{width:100%;border-collapse:collapse;font-size:14px;margin-top:14px}
+    table.breakdown td{padding:7px 0;border-bottom:1px solid var(--line)}
+    table.breakdown td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+    table.breakdown tr.total td{border-bottom:0;font-weight:700;font-size:15px}
+    .disclaimer{font-size:12.5px;color:var(--muted);margin-top:14px}
+
+    /* Checklist */
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+    .chip{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:14px;font-weight:500;user-select:none}
+    .chip input{width:auto;margin:0;accent-color:var(--green)}
+    .chip:has(input:checked){border-color:var(--green);background:var(--green-soft)}
+    .doclist{list-style:none;padding:0;margin:0}
+    .doclist li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+    .doclist li input{width:18px;height:18px;flex:none;margin-top:3px;accent-color:var(--green)}
+    .doclist .cat{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--green);font-weight:700;margin-top:16px;border:0;padding-bottom:2px}
+
+    /* FAQ */
+    details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px}
+    summary{cursor:pointer;font-weight:600}
+    details p{color:var(--muted);margin:10px 0 0}
+
+    .notice{border-left:4px solid var(--green);background:var(--green-soft);padding:12px 16px;border-radius:8px;font-size:14px}
+    .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px);z-index:50}
+    .toast.show{opacity:1}
+
+    footer{background:var(--navy);color:#fff;padding:40px 0 28px;font-size:14px}
+    footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px}
+    footer a{color:#9FE1C3}
+    .wa-float{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:30}
+    .wa-float[hidden]{display:none}
+    .wa-float svg{width:30px;height:30px;fill:#fff}
+    @media print{
+      header.top,.hero,section:not(#documentos),footer,.wa-float,.no-print{display:none!important}
+      body{background:#fff;color:#000}
+      .card{box-shadow:none;border:0}
+    }
+  </style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="RALOT Financial">
+      <span class="brand-mark">R</span>
+      <span>RALOT FINANCIAL<small class="es">Taxes · Ohio</small><small class="en">Taxes · Ohio</small></span>
+    </a>
+    <nav class="links" aria-label="Principal">
+      <a href="#servicios"><span class="es">Servicios</span><span class="en">Services</span></a>
+      <a href="#calculadora"><span class="es">Calculadora</span><span class="en">Estimator</span></a>
+      <a href="#documentos"><span class="es">Documentos</span><span class="en">Documents</span></a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="top-actions">
+      <button class="lang" id="langBtn" type="button" aria-label="Change language">EN</button>
+      <a class="btn btn-primary" href="#cita"><span class="es">Agendar cita</span><span class="en">Book now</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="pill"><span class="es">Preparadores de taxes en Ohio · Español e inglés</span><span class="en">Ohio tax preparers · English & Spanish</span></span>
+        <h1><span class="es">Tus taxes, claros y a tiempo.</span><span class="en">Your taxes, clear and on time.</span></h1>
+        <p class="lead"><span class="es">Declaraciones federales, estatales de Ohio y municipales para familias, trabajadores independientes y pequeños negocios. Calcula tu reembolso estimado y agenda en minutos.</span><span class="en">Federal, Ohio state and city returns for families, self-employed workers and small businesses. Estimate your refund and book in minutes.</span></p>
+        <div class="ctas">
+          <a class="btn btn-light" href="#calculadora"><span class="es">Calcular mi reembolso</span><span class="en">Estimate my refund</span></a>
+          <a class="btn btn-ghost" href="#cita"><span class="es">Agendar cita</span><span class="en">Book appointment</span></a>
+        </div>
+      </div>
+      <aside class="countdown" aria-live="polite">
+        <div class="muted" style="color:#cfe0f0"><span class="es">Faltan para la fecha límite</span><span class="en">Days until the deadline</span></div>
+        <div class="big" id="daysLeft">—</div>
+        <div style="opacity:.85"><span class="es">días · </span><span class="en">days · </span><span id="deadlineLabel"></span></div>
+        <ul id="dates"></ul>
+      </aside>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="servicios">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="es">Servicios</span><span class="en">Services</span></h2>
+        <p class="muted"><span class="es">Todo lo que necesitas para cumplir con el IRS, el estado de Ohio y tu ciudad.</span><span class="en">Everything you need to stay compliant with the IRS, the State of Ohio and your city.</span></p>
+      </div>
+      <div class="grid g3" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section style="background:var(--card);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="es">Cómo funciona</span><span class="en">How it works</span></h2>
+      </div>
+      <div class="grid g3 steps">
+        <div class="step"><h3><span class="es">Agenda</span><span class="en">Book</span></h3><p class="muted"><span class="es">Elige presencial, por teléfono o videollamada.</span><span class="en">Choose in-person, phone or video call.</span></p></div>
+        <div class="step"><h3><span class="es">Reúne documentos</span><span class="en">Gather documents</span></h3><p class="muted"><span class="es">Usa nuestra lista personalizada para no olvidar nada.</span><span class="en">Use our personalized checklist so nothing is missing.</span></p></div>
+        <div class="step"><h3><span class="es">Firmamos y enviamos</span><span class="en">We sign & e-file</span></h3><p class="muted"><span class="es">Revisamos contigo, presentamos electrónicamente y te avisamos cuando el IRS lo acepte.</span><span class="en">We review with you, e-file, and let you know when the IRS accepts it.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTIMATOR -->
+  <section id="calculadora">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="es">Calculadora de reembolso</span><span class="en">Refund estimator</span></h2>
+        <p class="muted"><span class="es">Una estimación rápida de tu reembolso federal, de Ohio y municipal. No guardamos ni enviamos estos datos.</span><span class="en">A quick estimate of your federal, Ohio and city refund. This data is never stored or sent.</span></p>
+      </div>
+      <div class="grid g2">
+        <form class="card" id="estForm" autocomplete="off">
+          <div class="row">
+            <div class="field">
+              <label for="year"><span class="es">Año fiscal</span><span class="en">Tax year</span></label>
+              <select id="year"><option value="2026">2026</option><option value="2025">2025</option></select>
+            </div>
+            <div class="field">
+              <label for="status"><span class="es">Estado civil tributario</span><span class="en">Filing status</span></label>
+              <select id="status">
+                <option value="single" data-es="Soltero(a)" data-en="Single">Soltero(a)</option>
+                <option value="mfj" data-es="Casado(a), declaración conjunta" data-en="Married filing jointly">Casado(a), declaración conjunta</option>
+                <option value="mfs" data-es="Casado(a), por separado" data-en="Married filing separately">Casado(a), por separado</option>
+                <option value="hoh" data-es="Cabeza de familia" data-en="Head of household">Cabeza de familia</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="wages"><span class="es">Salarios W-2 (caja 1)</span><span class="en">W-2 wages (box 1)</span></label>
+              <input id="wages" type="number" inputmode="decimal" min="0" step="1" placeholder="45000">
+            </div>
+            <div class="field">
+              <label for="other"><span class="es">Otros ingresos (1099, etc.)</span><span class="en">Other income (1099, etc.)</span></label>
+              <input id="other" type="number" inputmode="decimal" min="0" step="1" placeholder="0">
+              <div class="hint"><span class="es">Ganancia neta, no ventas brutas.</span><span class="en">Net profit, not gross sales.</span></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="kids"><span class="es">Hijos menores de 17</span><span class="en">Children under 17</span></label>
+              <input id="kids" type="number" inputmode="numeric" min="0" max="10" step="1" value="0">
+            </div>
+            <div class="field">
+              <label for="deps"><span class="es">Otros dependientes</span><span class="en">Other dependents</span></label>
+              <input id="deps" type="number" inputmode="numeric" min="0" max="10" step="1" value="0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="fedW"><span class="es">Retención federal (W-2 caja 2)</span><span class="en">Federal withheld (W-2 box 2)</span></label>
+              <input id="fedW" type="number" inputmode="decimal" min="0" step="1" placeholder="0">
+            </div>
+            <div class="field">
+              <label for="ohW"><span class="es">Retención de Ohio (caja 17)</span><span class="en">Ohio withheld (box 17)</span></label>
+              <input id="ohW" type="number" inputmode="decimal" min="0" step="1" placeholder="0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="city"><span class="es">Ciudad donde vives</span><span class="en">City you live in</span></label>
+              <select id="city"></select>
+            </div>
+            <div class="field">
+              <label for="cityW"><span class="es">Retención municipal (caja 19)</span><span class="en">City withheld (box 19)</span></label>
+              <input id="cityW" type="number" inputmode="decimal" min="0" step="1" placeholder="0">
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%"><span class="es">Calcular</span><span class="en">Calculate</span></button>
+        </form>
+
+        <div class="card" id="estResult" aria-live="polite">
+          <div class="result" id="resultBox">
+            <div id="resultLabel"><span class="es">Llena el formulario para ver tu estimado</span><span class="en">Fill in the form to see your estimate</span></div>
+            <div class="amount" id="resultAmount">$0</div>
+          </div>
+          <table class="breakdown" id="breakdown"></table>
+          <p class="disclaimer"><span class="es">Estimación simplificada con fines informativos: usa la deducción estándar y no incluye todas las situaciones (deducciones detalladas, créditos educativos, impuesto de autoempleo, créditos por ciudad de trabajo, etc.). El resultado real puede variar. No constituye asesoría fiscal.</span><span class="en">Simplified estimate for informational purposes: uses the standard deduction and doesn't cover every situation (itemized deductions, education credits, self-employment tax, work-city credits, etc.). Your actual result may differ. Not tax advice.</span></p>
+          <a class="btn btn-primary no-print" href="#cita" style="margin-top:8px"><span class="es">Quiero que lo preparen por mí</span><span class="en">Have a pro prepare it</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCUMENTS -->
+  <section id="documentos" style="background:var(--card);border-block:1px solid var(--line)">
+    <div class="wrap">
+      <div class="section-head">
+        <h2><span class="es">¿Qué documentos necesito?</span><span class="en">What documents do I need?</span></h2>
+        <p class="muted"><span class="es">Marca lo que aplica a tu caso y genera tu lista. Puedes imprimirla o guardarla en PDF.</span><span class="en">Select what applies to you to build your list. Print it or save it as a PDF.</span></p>
+      </div>
+      <div class="chips" id="situations"></div>
+      <div class="card" style="box-shadow:none">
+        <ul class="doclist" id="doclist"></ul>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px" class="no-print">
+          <button class="btn btn-primary" type="button" onclick="window.print()"><span class="es">Imprimir / PDF</span><span class="en">Print / PDF</span></button>
+          <a class="btn btn-ghost" href="#cita" style="color:var(--text)"><span class="es">Agendar cita</span><span class="en">Book appointment</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="cita">
+    <div class="wrap">
+      <div class="grid g2" style="align-items:start">
+        <div>
+          <h2><span class="es">Agenda tu cita</span><span class="en">Book your appointment</span></h2>
+          <p class="muted"><span class="es">Déjanos tus datos y te confirmamos el horario. Respondemos el mismo día hábil.</span><span class="en">Leave your details and we'll confirm the time. We reply the same business day.</span></p>
+          <div class="notice" style="margin:18px 0">
+            <strong><span class="es">Tu seguridad primero:</span><span class="en">Your security first:</span></strong>
+            <span class="es">nunca escribas tu Seguro Social (SSN/ITIN), números de cuenta bancaria ni fotos de documentos en este formulario ni por WhatsApp. Los documentos se entregan en persona o por nuestro portal seguro.</span>
+            <span class="en">never type your SSN/ITIN, bank account numbers or document photos into this form or WhatsApp. Documents are delivered in person or through our secure portal.</span>
+          </div>
+          <div id="contactInfo" class="muted"></div>
+        </div>
+        <form class="card" id="bookForm" novalidate>
+          <div class="field">
+            <label for="bName"><span class="es">Nombre completo</span><span class="en">Full name</span> *</label>
+            <input id="bName" name="nombre" required autocomplete="name">
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bPhone"><span class="es">Teléfono</span><span class="en">Phone</span> *</label>
+              <input id="bPhone" name="telefono" type="tel" required autocomplete="tel" placeholder="(614) 555-0123">
+            </div>
+            <div class="field">
+              <label for="bEmail">Email</label>
+              <input id="bEmail" name="email" type="email" autocomplete="email">
+            </div>
+          </div>
+          <div class="field">
+            <label for="bService"><span class="es">Servicio</span><span class="en">Service</span> *</label>
+            <select id="bService" name="servicio" required></select>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bDate"><span class="es">Fecha preferida</span><span class="en">Preferred date</span> *</label>
+              <input id="bDate" name="fecha" type="date" required>
+            </div>
+            <div class="field">
+              <label for="bTime"><span class="es">Horario</span><span class="en">Time</span></label>
+              <select id="bTime" name="horario">
+                <option data-es="Mañana (9–12)" data-en="Morning (9–12)">Mañana (9–12)</option>
+                <option data-es="Tarde (12–5)" data-en="Afternoon (12–5)">Tarde (12–5)</option>
+                <option data-es="Noche (5–8)" data-en="Evening (5–8)">Noche (5–8)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="bMode"><span class="es">Modalidad</span><span class="en">Format</span></label>
+              <select id="bMode" name="modalidad">
+                <option data-es="Presencial" data-en="In person">Presencial</option>
+                <option data-es="Por teléfono" data-en="Phone">Por teléfono</option>
+                <option data-es="Videollamada" data-en="Video call">Videollamada</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="bLang"><span class="es">Idioma</span><span class="en">Language</span></label>
+              <select id="bLang" name="idioma"><option>Español</option><option>English</option></select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="bNotes"><span class="es">Comentarios (opcional)</span><span class="en">Notes (optional)</span></label>
+            <textarea id="bNotes" name="comentarios"></textarea>
+          </div>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          <label style="display:flex;gap:10px;font-weight:400;font-size:13px;align-items:flex-start">
+            <input type="checkbox" id="bConsent" required style="width:auto;margin-top:3px">
+            <span><span class="es">Acepto ser contactado(a) por RALOT Financial sobre mi cita.</span><span class="en">I agree to be contacted by RALOT Financial about my appointment.</span></span>
+          </label>
+          <p id="bError" role="alert" style="color:var(--warn);font-size:14px;min-height:1.2em;margin:10px 0"></p>
+          <button class="btn btn-primary" type="submit" style="width:100%" id="bSubmit"><span class="es">Solicitar cita</span><span class="en">Request appointment</span></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:var(--card);border-top:1px solid var(--line)">
+    <div class="wrap" style="max-width:820px">
+      <h2><span class="es">Preguntas frecuentes</span><span class="en">Frequently asked questions</span></h2>
+      <div id="faqList" style="margin-top:20px"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <strong>RALOT FINANCIAL</strong><br>
+      <span class="es">Preparación de taxes · Ohio</span><span class="en">Tax preparation · Ohio</span><br>
+      <span id="footContact"></span>
+    </div>
+    <div style="max-width:520px;opacity:.8;font-size:13px">
+      <span class="es">La información de este sitio es general y no constituye asesoría fiscal ni legal. Las cifras de la calculadora son estimaciones.</span>
+      <span class="en">The information on this site is general and is not tax or legal advice. Estimator figures are estimates.</span>
+      <br>© <span id="yr"></span> RALOT Financial · <span class="es">Sitio por</span><span class="en">Site by</span> <a href="/">ASKJC Agency</a>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waFloat" href="#cita" aria-label="WhatsApp" hidden>
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.7c-2 0-4-.5-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.7 10.7 0 1 1 16 26.7zm5.9-8c-.3-.2-1.9-1-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.5 6.5 0 0 0 1.3 3.4 14.6 14.6 0 0 0 5.6 5c2.1.9 2.9 1 4 .8a3.3 3.3 0 0 0 2.2-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.2-.3-.3-.7-.5z"/></svg>
+</a>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — completar con los datos reales de RALOT Financial
+   ===================================================================== */
+const CONFIG = {
+  phone: "",            // ej. "(614) 555-0123"
+  whatsapp: "",         // solo dígitos con código de país, ej. "16145550123"
+  email: "",            // ej. "citas@ralotfinancial.com"
+  address: "",          // ej. "123 Main St, Columbus, OH 43215"
+  hours: { es: "Lun–Vie 9am–8pm · Sáb 10am–4pm", en: "Mon–Fri 9am–8pm · Sat 10am–4pm" },
+  // Endpoint opcional para recibir citas (Formspree, Getform, Google Apps Script, API propia).
+  // Si está vacío, la cita se envía por WhatsApp o email usando los datos de arriba.
+  formEndpoint: ""
+};
+
+/* =====================================================================
+   DATOS FISCALES — verificar cada temporada contra IRS (Rev. Proc.) y
+   Ohio Department of Taxation antes de publicar cambios.
+   ===================================================================== */
+const TAX = {
+  2025: {
+    deadline: "2026-04-15",
+    std: { single: 15750, mfj: 31500, mfs: 15750, hoh: 23625 },
+    brackets: {
+      single: [[11925,.10],[48475,.12],[103350,.22],[197300,.24],[250525,.32],[626350,.35],[Infinity,.37]],
+      mfj:    [[23850,.10],[96950,.12],[206700,.22],[394600,.24],[501050,.32],[751600,.35],[Infinity,.37]],
+      mfs:    [[11925,.10],[48475,.12],[103350,.22],[197300,.24],[250525,.32],[375800,.35],[Infinity,.37]],
+      hoh:    [[17000,.10],[64850,.12],[103350,.22],[197300,.24],[250500,.32],[626350,.35],[Infinity,.37]]
+    },
+    ctc: 2200, actcMax: 1700, odc: 500,
+    // EITC: [crédito máximo, tasa de entrada, inicio de reducción (single/hoh), inicio de reducción (mfj), tasa de reducción]
+    eitc: [[649,.0765,10620,17730,.0765],[4328,.34,23350,30470,.1598],[7152,.40,23350,30470,.2106],[8046,.45,23350,30470,.2106]],
+    ohio: { zeroUpTo: 26050, base: 360.69, mid: .0275, topFrom: 100000, topBase: 2394.32, top: .03125 }
+  },
+  2026: {
+    deadline: "2027-04-15",
+    std: { single: 16100, mfj: 32200, mfs: 16100, hoh: 24150 },
+    brackets: {
+      single: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]],
+      mfj:    [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]],
+      mfs:    [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]],
+      hoh:    [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]]
+    },
+    ctc: 2200, actcMax: 1700, odc: 500,
+    eitc: [[664,.0765,10860,18140,.0765],[4427,.34,23890,31160,.1598],[7316,.40,23890,31160,.2106],[8231,.45,23890,31160,.2106]],
+    // HB 96: tasa plana de 2.75% a partir de 2026
+    ohio: { zeroUpTo: 26050, base: 360.69, mid: .0275, topFrom: Infinity, topBase: 0, top: .0275 }
+  }
+};
+// Tasas municipales de residencia (verificar en RITA / CCA / oficina de la ciudad).
+const CITIES = [
+  ["none","Otra / no estoy seguro","Other / not sure",0],
+  ["columbus","Columbus",null,.025],["cleveland","Cleveland",null,.025],["cincinnati","Cincinnati",null,.018],
+  ["toledo","Toledo",null,.025],["akron","Akron",null,.025],["dayton","Dayton",null,.025],
+  ["springfield","Springfield",null,.024],["hamilton","Hamilton",null,.02],["lorain","Lorain",null,.025]
+];
+
+const SERVICES = [
+  { icon:"doc", es:["Taxes personales","Formulario 1040, estatal de Ohio y municipal (RITA/CCA). W-2, 1099, créditos por hijos y EITC."], en:["Personal taxes","Form 1040, Ohio state and city returns (RITA/CCA). W-2, 1099, child credits and EITC."] },
+  { icon:"id",  es:["Solicitud y renovación de ITIN","Somos guía en el proceso del Formulario W-7 para ti y tu familia."], en:["ITIN applications & renewals","We guide you through Form W-7 for you and your family."] },
+  { icon:"brief", es:["Negocios y LLC","Schedule C, LLC, corporaciones S, impuesto de autoempleo y pagos estimados trimestrales."], en:["Business & LLC","Schedule C, LLCs, S-corps, self-employment tax and quarterly estimated payments."] },
+  { icon:"calc", es:["Contabilidad y nómina","Libros mensuales, nómina, 1099-NEC para contratistas y reportes para préstamos."], en:["Bookkeeping & payroll","Monthly books, payroll, 1099-NEC for contractors and loan-ready reports."] },
+  { icon:"mail", es:["Cartas del IRS y del estado","Te ayudamos a entender y responder avisos, auditorías y planes de pago."], en:["IRS & state letters","We help you understand and respond to notices, audits and payment plans."] },
+  { icon:"redo", es:["Enmiendas y años atrasados","Formulario 1040-X y declaraciones de años anteriores no presentadas."], en:["Amendments & back taxes","Form 1040-X and unfiled prior-year returns."] }
+];
+const ICONS = {
+  doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+  id:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h4M14 14h4"/>',
+  brief:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',
+  calc:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M8 16h2M12 16h4"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  redo:'<path d="M4 12a8 8 0 1 0 3-6.2"/><path d="M4 4v4h4"/>'
+};
+
+const SITUATIONS = [
+  { id:"base", always:true },
+  { id:"w2", es:"Tengo empleo (W-2)", en:"I have a job (W-2)" },
+  { id:"self", es:"Trabajo por mi cuenta / 1099", en:"Self-employed / 1099" },
+  { id:"kids", es:"Tengo hijos o dependientes", en:"I have children or dependents" },
+  { id:"home", es:"Soy dueño(a) de casa", en:"I own a home" },
+  { id:"school", es:"Estudio o pago universidad", en:"I pay for college" },
+  { id:"health", es:"Seguro del Marketplace", en:"Marketplace insurance" },
+  { id:"invest", es:"Inversiones o cripto", en:"Investments or crypto" },
+  { id:"unemp", es:"Recibí desempleo", en:"I received unemployment" },
+  { id:"itin", es:"Necesito ITIN", en:"I need an ITIN" }
+];
+const DOCS = {
+  base:[["ID con foto vigente (licencia, pasaporte o ID consular)","Valid photo ID (license, passport or consular ID)"],
+        ["Tarjetas de Seguro Social o cartas de ITIN de todas las personas en la declaración","Social Security cards or ITIN letters for everyone on the return"],
+        ["Declaración del año pasado (si eres cliente nuevo)","Last year's return (if you're a new client)"],
+        ["Número de ruta y cuenta bancaria para depósito directo (en persona)","Bank routing & account number for direct deposit (in person)"],
+        ["Cartas del IRS o del estado recibidas este año","Any IRS or state letters received this year"]],
+  w2:[["Formularios W-2 de todos tus empleos","W-2 forms from every job"]],
+  self:[["Formularios 1099-NEC / 1099-K","Forms 1099-NEC / 1099-K"],["Resumen de ingresos y gastos del negocio","Business income & expense summary"],["Millas de vehículo de trabajo","Business vehicle mileage"],["Pagos estimados realizados (federal, Ohio, ciudad)","Estimated payments made (federal, Ohio, city)"]],
+  kids:[["Fechas de nacimiento y SSN/ITIN de los dependientes","Dependents' birth dates and SSN/ITIN"],["Gastos de guardería con nombre y EIN/SSN del proveedor","Childcare costs with provider name and EIN/SSN"],["Comprobante de residencia de los niños (escuela, médico) si aplica","Proof of children's residency (school, doctor) if needed"]],
+  home:[["Formulario 1098 de intereses hipotecarios","Form 1098 mortgage interest"],["Recibos de impuestos a la propiedad","Property tax statements"]],
+  school:[["Formulario 1098-T de la universidad","Form 1098-T from the school"],["Formulario 1098-E de intereses de préstamos estudiantiles","Form 1098-E student loan interest"]],
+  health:[["Formulario 1095-A del Marketplace","Form 1095-A from the Marketplace"]],
+  invest:[["Formularios 1099-B, 1099-DIV, 1099-INT","Forms 1099-B, 1099-DIV, 1099-INT"],["Reportes de ganancias/pérdidas de cripto","Crypto gain/loss reports"]],
+  unemp:[["Formulario 1099-G de desempleo de Ohio","Ohio unemployment Form 1099-G"]],
+  itin:[["Pasaporte vigente original (o 2 documentos de identidad aceptados por el IRS)","Original valid passport (or 2 IRS-accepted identity documents)"],["Acta de nacimiento para dependientes","Birth certificates for dependents"]]
+};
+const DOC_CATS = { base:["Básicos","Basics"], w2:["Empleo","Employment"], self:["Negocio propio","Self-employment"], kids:["Familia","Family"], home:["Vivienda","Home"], school:["Educación","Education"], health:["Salud","Health"], invest:["Inversiones","Investments"], unemp:["Desempleo","Unemployment"], itin:["ITIN","ITIN"] };
+
+const FAQ = [
+  ["¿Cuánto tarda mi reembolso?","La mayoría de las declaraciones electrónicas con depósito directo se reembolsan en menos de 21 días después de que el IRS las acepta. Si reclamas EITC o el crédito adicional por hijos, el IRS no emite reembolsos antes de mediados de febrero. Puedes revisar el estado en irs.gov/refunds.",
+   "How long will my refund take?","Most e-filed returns with direct deposit are refunded within 21 days of IRS acceptance. If you claim the EITC or Additional Child Tax Credit, the IRS can't issue refunds before mid-February. Check status at irs.gov/refunds."],
+  ["¿Necesito declarar impuestos de la ciudad en Ohio?","Sí, la mayoría de las ciudades de Ohio cobran impuesto municipal sobre el ingreso. Muchas usan RITA o CCA. Preparamos tu declaración municipal junto con la federal y la estatal.",
+   "Do I need to file city taxes in Ohio?","Yes, most Ohio cities levy a municipal income tax. Many use RITA or CCA. We prepare your city return along with your federal and state returns."],
+  ["¿Puedo declarar si no tengo número de Seguro Social?","Sí. Puedes declarar con un ITIN. Si no lo tienes, te ayudamos a solicitarlo con el Formulario W-7 al presentar tu declaración.",
+   "Can I file without a Social Security number?","Yes. You can file with an ITIN. If you don't have one, we help you apply with Form W-7 when you file."],
+  ["¿Qué pasa si no puedo pagar lo que debo?","Presenta a tiempo de todas formas para evitar la multa por no declarar. Te ayudamos a solicitar un plan de pagos con el IRS o con Ohio.",
+   "What if I can't pay what I owe?","File on time anyway to avoid the failure-to-file penalty. We'll help you request a payment plan with the IRS or Ohio."],
+  ["¿Mis datos están seguros?","Seguimos las normas de protección de datos del IRS para preparadores. Nunca pedimos tu SSN por WhatsApp ni redes sociales; los documentos se entregan en persona o por portal seguro.",
+   "Is my information safe?","We follow IRS data-security rules for preparers. We never ask for your SSN over WhatsApp or social media; documents are delivered in person or via a secure portal."]
+];
+
+/* ===================================================================== */
+const $ = s => document.querySelector(s);
+const html = document.documentElement;
+let lang = "es";
+try { lang = localStorage.getItem("ralot-lang") || (navigator.language||"es").slice(0,2); } catch(e){}
+if (lang !== "en") lang = "es";
+const L = (es,en) => lang === "es" ? es : en;
+const money = n => (n<0?"-":"") + "$" + Math.round(Math.abs(n)).toLocaleString("en-US");
+const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3500); };
+
+function setLang(l){
+  lang = l; html.lang = l;
+  try { localStorage.setItem("ralot-lang", l); } catch(e){}
+  $("#langBtn").textContent = l === "es" ? "EN" : "ES";
+  document.querySelectorAll("option[data-es]").forEach(o => o.textContent = o.dataset[l]);
+  renderCities(); renderServicesSelect(); renderSituations(); renderDocs(); renderFaq(); renderDates(); renderContact();
+  if (lastCalc) calculate();
+}
+$("#langBtn").addEventListener("click", () => setLang(lang === "es" ? "en" : "es"));
+
+/* Services */
+$("#servicesGrid").innerHTML = SERVICES.map(s => `
+  <article class="card">
+    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[s.icon]}</svg></div>
+    <h3><span class="es">${s.es[0]}</span><span class="en">${s.en[0]}</span></h3>
+    <p><span class="es">${s.es[1]}</span><span class="en">${s.en[1]}</span></p>
+  </article>`).join("");
+function renderServicesSelect(){
+  const sel = $("#bService"), v = sel.selectedIndex;
+  sel.innerHTML = SERVICES.map(s => `<option>${L(s.es[0],s.en[0])}</option>`).join("") + `<option>${L("Otro / no estoy seguro","Other / not sure")}</option>`;
+  if (v >= 0) sel.selectedIndex = v;
+}
+function renderCities(){
+  const sel = $("#city"), v = sel.value;
+  sel.innerHTML = CITIES.map(c => `<option value="${c[0]}">${c[2] ? L(c[1],c[2]) : c[1]}${c[3] ? " — " + (c[3]*100).toFixed(2).replace(/0$/,"") + "%" : ""}</option>`).join("");
+  if (v) sel.value = v;
+}
+
+/* Deadlines */
+function nextDeadline(){
+  const now = new Date();
+  const years = Object.keys(TAX).sort();
+  for (const y of years){ const d = new Date(TAX[y].deadline + "T23:59:59"); if (d >= now) return { year:y, date:d }; }
+  const last = years[years.length-1]; return { year:last, date:new Date(TAX[last].deadline + "T23:59:59") };
+}
+function renderDates(){
+  const nd = nextDeadline(), now = new Date();
+  const days = Math.max(0, Math.ceil((nd.date - now) / 864e5));
+  const fmt = d => d.toLocaleDateString(lang === "es" ? "es-US" : "en-US", { month:"long", day:"numeric", year:"numeric" });
+  $("#daysLeft").textContent = days;
+  $("#deadlineLabel").textContent = fmt(nd.date);
+  const fy = +nd.year + 1;
+  const items = [
+    [`${fy}-01-31`, "W-2 y 1099-NEC enviados por empleadores", "W-2s and 1099-NECs sent by employers"],
+    [`${fy}-01-15`, "4.º pago estimado del año " + nd.year, "Q4 estimated payment for " + nd.year],
+    [`${fy}-04-15`, "Fecha límite federal, Ohio y municipal", "Federal, Ohio and city deadline"],
+    [`${fy}-10-15`, "Fecha límite con extensión", "Extended deadline"]
+  ].sort((a,b) => a[0].localeCompare(b[0]));
+  $("#dates").innerHTML = items.map(i => `<li><span>${L(i[1],i[2])}</span><strong>${fmt(new Date(i[0]+"T12:00:00"))}</strong></li>`).join("");
+  const sel = $("#year"); if (!sel.dataset.set){ sel.value = nd.year; sel.dataset.set = 1; }
+}
+
+/* Estimator */
+function bracketTax(income, br){
+  let tax = 0, prev = 0;
+  for (const [top, rate] of br){ if (income <= prev) break; tax += (Math.min(income, top) - prev) * rate; prev = top; }
+  return tax;
+}
+function eitc(T, status, earned, agi, kids){
+  if (status === "mfs") return 0;
+  const [max, inRate, poSingle, poJoint, outRate] = T.eitc[Math.min(kids,3)];
+  const po = status === "mfj" ? poJoint : poSingle;
+  const phaseIn = Math.min(max, earned * inRate);
+  const reduce = Math.max(0, Math.max(earned, agi) - po) * outRate;
+  return Math.max(0, phaseIn - reduce);
+}
+function ohioTax(T, agi, persons){
+  const per = agi <= 40000 ? 2400 : agi <= 80000 ? 2150 : agi <= 750000 ? 1900 : 0;
+  const ti = Math.max(0, agi - per * persons), o = T.ohio;
+  if (ti <= o.zeroUpTo) return { tax:0, ti };
+  if (ti <= o.topFrom) return { tax: o.base + (ti - o.zeroUpTo) * o.mid, ti };
+  return { tax: o.topBase + (ti - o.topFrom) * o.top, ti };
+}
+let lastCalc = false;
+function num(id){ const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : 0; }
+function calculate(){
+  lastCalc = true;
+  const year = $("#year").value, T = TAX[year], status = $("#status").value;
+  const wages = num("#wages"), other = num("#other");
+  const kids = Math.floor(num("#kids")), deps = Math.floor(num("#deps"));
+  const fedW = num("#fedW"), ohW = num("#ohW"), cityW = num("#cityW");
+  const city = CITIES.find(c => c[0] === $("#city").value) || CITIES[0];
+
+  const agi = wages + other, earned = wages + other;
+  const taxable = Math.max(0, agi - T.std[status]);
+  const fedTax = bracketTax(taxable, T.brackets[status]);
+
+  const ctcThreshold = status === "mfj" ? 400000 : 200000;
+  let credit = kids * T.ctc + deps * T.odc;
+  credit = Math.max(0, credit - Math.ceil(Math.max(0, agi - ctcThreshold) / 1000) * 50);
+  const nonRef = Math.min(fedTax, credit);
+  const leftoverKids = Math.min(credit - nonRef, kids * T.ctc);
+  const actc = Math.min(leftoverKids, kids * T.actcMax, Math.max(0, earned - 2500) * 0.15);
+  const eic = eitc(T, status, earned, agi, kids);
+  const fedNet = fedW + actc + eic - (fedTax - nonRef);
+
+  const persons = (status === "mfj" ? 2 : 1) + kids + deps;
+  const oh = ohioTax(T, agi, persons);
+  const ohNet = ohW - oh.tax;
+  const cityTax = (wages + other) * city[3];
+  const cityNet = city[3] ? cityW - cityTax : 0;
+  const total = fedNet + ohNet + cityNet;
+
+  const box = $("#resultBox");
+  box.classList.toggle("owe", total < 0);
+  $("#resultLabel").textContent = total >= 0 ? L("Reembolso total estimado","Estimated total refund") : L("Saldo estimado a pagar","Estimated balance due");
+  $("#resultAmount").textContent = money(Math.abs(total));
+  const row = (a, b) => `<tr><td>${a}</td><td>${b}</td></tr>`;
+  const sign = n => (n >= 0 ? "+" : "−") + money(Math.abs(n)).replace("-","");
+  $("#breakdown").innerHTML =
+    row(L("Ingreso bruto ajustado (AGI)","Adjusted gross income (AGI)"), money(agi)) +
+    row(L("Deducción estándar","Standard deduction"), money(T.std[status])) +
+    row(L("Impuesto federal antes de créditos","Federal tax before credits"), money(fedTax)) +
+    row(L("Crédito por hijos / dependientes","Child / dependent credit"), money(nonRef + actc)) +
+    (eic ? row(L("Crédito por ingreso del trabajo (EITC)","Earned income credit (EITC)"), money(eic)) : "") +
+    row(`<strong>${L("Federal","Federal")}</strong>`, sign(fedNet)) +
+    row(L("Impuesto de Ohio","Ohio tax"), money(oh.tax)) +
+    row(`<strong>Ohio</strong>`, sign(ohNet)) +
+    (city[3] ? row(`<strong>${city[1]} (${(city[3]*100).toFixed(2).replace(/0$/,"")}%)</strong>`, sign(cityNet)) : "") +
+    `<tr class="total"><td>${total >= 0 ? L("Reembolso estimado","Estimated refund") : L("A pagar","Amount due")}</td><td>${money(Math.abs(total))}</td></tr>`;
+}
+$("#estForm").addEventListener("submit", e => { e.preventDefault(); calculate(); if (innerWidth < 860) $("#estResult").scrollIntoView({behavior:"smooth"}); });
+$("#estForm").addEventListener("input", () => { if (lastCalc) calculate(); });
+
+/* Checklist */
+let selected = new Set(["w2"]);
+let checkedDocs = new Set();
+try { selected = new Set(JSON.parse(localStorage.getItem("ralot-sit") || '["w2"]')); checkedDocs = new Set(JSON.parse(localStorage.getItem("ralot-docs") || "[]")); } catch(e){}
+function saveChecklist(){ try { localStorage.setItem("ralot-sit", JSON.stringify([...selected])); localStorage.setItem("ralot-docs", JSON.stringify([...checkedDocs])); } catch(e){} }
+function renderSituations(){
+  $("#situations").innerHTML = SITUATIONS.filter(s => !s.always).map(s =>
+    `<label class="chip"><input type="checkbox" value="${s.id}" ${selected.has(s.id) ? "checked" : ""}> ${L(s.es,s.en)}</label>`).join("");
+  $("#situations").querySelectorAll("input").forEach(i => i.addEventListener("change", () => {
+    i.checked ? selected.add(i.value) : selected.delete(i.value); saveChecklist(); renderDocs();
+  }));
+}
+function renderDocs(){
+  const keys = ["base", ...SITUATIONS.filter(s => !s.always && selected.has(s.id)).map(s => s.id)];
+  $("#doclist").innerHTML = keys.map(k =>
+    `<li class="cat">${L(...DOC_CATS[k])}</li>` +
+    DOCS[k].map((d, i) => { const id = k + i; return `<li><input type="checkbox" id="d-${id}" data-id="${id}" ${checkedDocs.has(id) ? "checked" : ""}><label for="d-${id}" style="font-weight:400;margin:0">${L(d[0],d[1])}</label></li>`; }).join("")
+  ).join("");
+  $("#doclist").querySelectorAll("input").forEach(i => i.addEventListener("change", () => {
+    i.checked ? checkedDocs.add(i.dataset.id) : checkedDocs.delete(i.dataset.id); saveChecklist();
+  }));
+}
+
+/* FAQ */
+function renderFaq(){
+  $("#faqList").innerHTML = FAQ.map(f => `<details><summary>${L(f[0],f[2])}</summary><p>${L(f[1],f[3])}</p></details>`).join("");
+}
+
+/* Contact */
+function renderContact(){
+  const parts = [];
+  if (CONFIG.phone) parts.push(`📞 <a href="tel:${CONFIG.phone.replace(/[^\d+]/g,"")}">${CONFIG.phone}</a>`);
+  if (CONFIG.whatsapp) parts.push(`💬 <a href="https://wa.me/${CONFIG.whatsapp}" target="_blank" rel="noopener">WhatsApp</a>`);
+  if (CONFIG.email) parts.push(`✉️ <a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`);
+  if (CONFIG.address) parts.push(`📍 ${CONFIG.address}`);
+  parts.push(`🕘 ${CONFIG.hours[lang]}`);
+  $("#contactInfo").innerHTML = parts.join("<br>");
+  $("#footContact").innerHTML = parts.slice(0, 3).join(" · ");
+  if (CONFIG.whatsapp){ const w = $("#waFloat"); w.hidden = false; w.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(L("Hola, quiero información sobre taxes.","Hi, I'd like information about taxes."))}`; w.target = "_blank"; w.rel = "noopener"; }
+}
+
+/* Booking */
+const dateInput = $("#bDate");
+const today = new Date(); today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+dateInput.min = today.toISOString().slice(0,10);
+$("#bookForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, err = $("#bError");
+  if (f._gotcha.value) return;
+  const data = Object.fromEntries(new FormData(f)); delete data._gotcha;
+  const phoneDigits = (data.telefono || "").replace(/\D/g, "");
+  if (!data.nombre.trim() || phoneDigits.length < 10 || !data.fecha || !$("#bConsent").checked){
+    err.textContent = L("Completa nombre, un teléfono de 10 dígitos, la fecha y acepta ser contactado(a).","Please enter your name, a 10-digit phone, a date, and agree to be contacted.");
+    return;
+  }
+  if (/\b\d{3}-?\d{2}-?\d{4}\b/.test(data.comentarios || "")){
+    err.textContent = L("Parece que escribiste un número de Seguro Social. Por tu seguridad, bórralo.","It looks like you typed a Social Security number. For your safety, please remove it.");
+    return;
+  }
+  err.textContent = "";
+  const summary = `${L("Nueva solicitud de cita — RALOT Financial","New appointment request — RALOT Financial")}
+${L("Nombre","Name")}: ${data.nombre}
+${L("Teléfono","Phone")}: ${data.telefono}
+Email: ${data.email || "-"}
+${L("Servicio","Service")}: ${data.servicio}
+${L("Fecha","Date")}: ${data.fecha} · ${data.horario}
+${L("Modalidad","Format")}: ${data.modalidad} · ${data.idioma}
+${L("Comentarios","Notes")}: ${data.comentarios || "-"}`;
+  const btn = $("#bSubmit"); btn.disabled = true;
+  try {
+    if (CONFIG.formEndpoint){
+      const r = await fetch(CONFIG.formEndpoint, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(data) });
+      if (!r.ok) throw new Error(r.status);
+      toast(L("¡Listo! Te contactaremos para confirmar tu cita.","Done! We'll contact you to confirm your appointment."));
+      f.reset();
+    } else if (CONFIG.whatsapp){
+      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(summary)}`, "_blank", "noopener");
+    } else if (CONFIG.email){
+      location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent(L("Solicitud de cita","Appointment request"))}&body=${encodeURIComponent(summary)}`;
+    } else {
+      console.info(summary);
+      toast(L("Modo demo: configura WhatsApp, email o formEndpoint para recibir citas.","Demo mode: set WhatsApp, email or formEndpoint to receive bookings."));
+    }
+  } catch(ex){
+    err.textContent = L("No pudimos enviar tu solicitud. Intenta de nuevo o llámanos.","We couldn't send your request. Please try again or call us.");
+  } finally { btn.disabled = false; }
+});
+
+$("#yr").textContent = new Date().getFullYear();
+renderCities();
+setLang(lang);
+</script>
+</body>
+</html>
